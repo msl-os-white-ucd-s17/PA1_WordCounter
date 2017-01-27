@@ -1,38 +1,26 @@
 # PA1_WordCounter
+##Read Me
+_____
+-Team      :  White     
+-Members   :  Shawn Alexander, Sara Kim, 
+              Lena Banks, Stefani Moore
+              
+-Class     :  Operating Systems UCD           
+-HW#       :  PA1 Word Counter               
+-Due Date  :  UPDATE
+****
+####Description of the program
 
-*******************************************************
-*  Team      :  White     
-*  Members   :  Shawn Alexander, Sara Kim,
-                Lena Banks, Stefani Moore
-*  Class     :  Operating Systems UCD           
-*  HW#       :  PA1 - Word Counter               
-*  Due Date  :  ??
-*******************************************************
+>Word counter program implemented using a binary search tree in C.
 
+####Source files
 
-                 Read Me
+>Update Me
 
+####Circumstances of programs
 
-*******************************************************
-*  Description of the program
-*******************************************************
+>Update Me
 
-  Word counter program implemented using a binary search
-  tree in C.
+####How to build and run the program
 
-*******************************************************
-*  Source files
-*******************************************************
-   
-   
-*******************************************************
-*  Circumstances of programs
-*******************************************************
-
-
-*******************************************************
-*  How to build and run the program
-*******************************************************
-
-
-
+>Update Me
