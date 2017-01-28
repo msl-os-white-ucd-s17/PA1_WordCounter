@@ -2,7 +2,7 @@
 ##Read Me
 _____
 -Team      :  White     
--Members   :  Shawn Alexander, Sara Kim, 
+-Members   :  Shawn Johnson, Sara Kim, 
               Lena Banks, Stefani Moore
               
 -Class     :  Operating Systems UCD           
