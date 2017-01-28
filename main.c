@@ -1,63 +1,142 @@
+
+/*
+=========================================================================================================
+
+                                        Word Counter
+
+=========================================================================================================
+Contributors:			OS Team White
+Last Date Modified:		1-28-2017
+Course:					Operating Systems
+Assignment:				Word Counter in C - Assigment 1
+Description:            This program will function as a text file word counter implemented by using a
+                        binary search tree in the C programming language.
+
+Status:					Created a Binary Search tree node insertion function, tree traversal, and
+                        tree delete function. Created a very simple test case to make sure that the
+                        functions are working as expected and so far, so good.
+
+                        Compiles and runs successfully via CLion 2016.3.2 and the CSE UNIX grid
+=========================================================================================================
+*/
+
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
-#include <assert.h>
 
-long int getStartPos(FILE *f) {
-    int ch;
-    long int sPos = -1L; //Initialize to error code
-    sPos = ftell(f);
-    for (ch = fgetc(f); ch != EOF && !isalpha((char) ch); ch = fgetc(f)) {
-        sPos = ftell(f);
-    }
-    return sPos;
+
+typedef struct BST_Node{
+
+    //Node structure for Binary Search Tree
+    char *wordArr;
+    int wordCount;
+
+    // struct Node* root;
+    struct BST_Node* left;
+    struct BST_Node* right;
+
+} Node;
+
+//Function Prototypes
+void insertNode(char*, Node**);
+Node* createNode(char*);
+void inOrderTraversal(Node*);
+void deleteBinTree(Node**);
+
+
+int main() {
+
+    //**********************************************************************
+    //              TEST CASE
+    //**********************************************************************
+    Node* tree = NULL;
+
+    char *wordIn1 = "something";
+    char *wordIn2 = "else";
+    char *wordIn3 = "another";
+    char *wordIn4 = "else";
+
+    printf("Adding: %s\n", wordIn);
+    insertNode(wordIn1, &tree);
+
+    printf("Adding: %s\n", wordIn2);
+    insertNode(wordIn2, &tree);
+
+    printf("Adding: %s\n", wordIn3);
+    insertNode(wordIn3, &tree);
+
+    printf("Adding: %s\n", wordIn4);
+    insertNode(wordIn4, &tree);
+
+    inOrderTraversal(tree);
+
+    return 0;
 }
 
-long int getEndPos(FILE *f) {
-    int ch;
-    long int ePos = -1L; //Initialize to error code
-    ePos = ftell(f);
-    for (ch = fgetc(f); ch != EOF && isalpha((char) ch); ch = fgetc(f)) {
-        ePos = ftell(f);
+//BST Functions
+
+void insertNode(char* iWord, Node** nodePtr){
+
+    int cmpValue;                                       //Holds value for strcmp
+
+    if(*nodePtr == NULL){
+        (*nodePtr) = createNode(iWord);                 //Create a new node if nodePtr is not NULL
+        if(*nodePtr == NULL){
+            printf("%s failed to insert.", iWord);      //If nodePtr is NULL, print error message
+        }
     }
-    return ePos;
+    else{
+
+        cmpValue = strcmp(iWord, (*nodePtr)->wordArr);  //Compare words to determine a left or right traversal
+
+        if(cmpValue < 0){
+            insertNode(iWord, &(*nodePtr)->left);       //Word < than node, traverse left
+        }
+        else if(cmpValue > 0){
+            insertNode(iWord, &(*nodePtr)->right);      //Word > than node, traverse right
+        }
+        else{                                           //Word = node word, increment wordCount
+            printf("Word '%s' incremented by 1\n", iWord);
+            (*nodePtr)->wordCount = (*nodePtr)->wordCount + 1;
+        }
+    }
 }
 
 
+Node *createNode(char* iWord){
 
-main(int argc, char **argv) {
-    if (argc > 1) {
-        FILE *file;
-        if ((file = fopen(argv[1], "r")) != NULL) {
-            char *word = NULL;
-            long int s = 0, e = 0, curPos;
-            while (!feof(file)) {
-                s = getStartPos(file);
-                e = getEndPos(file);
-                word = (char*) malloc(sizeof(char)*((e-s)+1));
-                if (word == NULL) {
-                    perror("Memory Error!");
-                    exit(2);
-                }
-                else {
-                    curPos = ftell(file);
-                    fseek(file, s, SEEK_SET);
-                    fread(word, sizeof(char), (size_t) e-s, file);
-                    word[(e-s)] = '\0';
-                    fseek(file, curPos, SEEK_SET);
-                }
+    Node *parentNode;
+    parentNode = malloc(sizeof(Node));      //allocate memory for the struct Node
+    if(!parentNode){                        //If mem allocation fails, print error message and return NULL
+        printf("Unable to allocate memory for node.\n");
+        return NULL;
+    }
+    parentNode->wordArr = iWord;            //Set key = to iWord for new Node
+    parentNode->wordCount = 1;              //new node wordCount = 1
+    parentNode->left = NULL;                //Left and right branches are NULL
+    parentNode->right = NULL;
 
-            }
-            fclose(file);
-        }
-        else {
-            printf("Error! Could not open file for reading!");
-            exit(1);
-        }
+    return parentNode;                      //Return new node
+}
+
+void inOrderTraversal(Node* pNode){
+
+    //Recusively traverse all nodes of the tree in order from left to right
+    if(pNode != NULL){
+        inOrderTraversal(pNode->left);
+        printf("\nWord: %s  Count: %d\n", pNode->wordArr, pNode->wordCount);
+        inOrderTraversal(pNode->right);
     }
-    else {
-        printf("Error! Input file not specified!\nUSAGE: ./a.out FILENAME.txt");
-        exit(1);
+}
+
+void deleteBinTree(Node** nodePtr){
+
+    //Recursively delete all nodes unless binary search tree is empty
+    if(*nodePtr != NULL){
+        deleteBinTree(&(*nodePtr)->left);
+        deleteBinTree(&(*nodePtr)->right);
+        free((*nodePtr)->wordArr);
+        free((*nodePtr));
     }
-    exit(0);
+
 }
