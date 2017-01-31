@@ -7,7 +7,7 @@ _____
               
 -Class     :  Operating Systems UCD           
 -HW#       :  PA1 Word Counter               
--Due Date  :  UPDATE
+-Due Date  :  2/3/2017
 ****
 ####Description of the program
 
@@ -15,7 +15,7 @@ _____
 
 ####Source files
 
->Update Me
+>main.c bst.c filefuncs.c bst.h filefuncs.h test.c
 
 ####Circumstances of programs
 
@@ -23,4 +23,13 @@ _____
 
 ####How to build and run the program
 
->Update Me
+>Use the following as CMakeLists.txt
+
+    cmake_minimum_required(VERSION 3.6)
+    project(PA1_WordCounter)
+
+    set(CMAKE_C_STANDARD 11)
+
+    set(SOURCE_FILES main.c bst.c filefuncs.c bst.h filefuncs.h test.c)
+    add_executable(PA1_WordCounter ${SOURCE_FILES})
+
