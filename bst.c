@@ -25,7 +25,7 @@ void insertNode(char* iWord, Node** nodePtr){
             insertNode(iWord, &(*nodePtr)->right);      //Word > than node, traverse right
         }
         else{                                           //Word = node word, increment wordCount
-            printf("Word '%s' incremented by 1\n", iWord);
+
             (*nodePtr)->wordCount = (*nodePtr)->wordCount + 1;
         }
     }
@@ -50,11 +50,33 @@ Node *createNode(char* iWord){
 
 void inOrderTraversal(Node* pNode){
 
-    //Recusively traverse all nodes of the tree in order from left to right
+    //Recursively traverse all nodes of the tree in order from left to right
     if(pNode != NULL){
         inOrderTraversal(pNode->left);
         printf("\nWord: %s  Count: %d\n", pNode->wordArr, pNode->wordCount);
         inOrderTraversal(pNode->right);
+    }
+}
+
+Node* findNode(Node** pNode, char* iWord){
+
+    int cmpValue = 0;
+
+    if(*pNode == NULL){
+        //word not found
+        return NULL;
+    }
+    else {
+
+        cmpValue = strcmp(iWord, (*pNode)->wordArr);
+        if (cmpValue > 0) {
+            return findNode(&(*pNode)->right, iWord);
+        } else if (cmpValue < 0) {
+            return findNode(&(*pNode)->left, iWord);
+        } else {
+            //word found
+            return (*pNode);
+        }
     }
 }
 
