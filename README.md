@@ -15,7 +15,7 @@ _____
 
 ####Source files
 
->main.c bst.c filefuncs.c bst.h filefuncs.h test.c
+>main.c bst.c filefuncs.c bst.h filefuncs.h menu.h menu.c
 
 ####Circumstances of programs
 
@@ -30,6 +30,14 @@ _____
 
     set(CMAKE_C_STANDARD 11)
 
-    set(SOURCE_FILES main.c bst.c filefuncs.c bst.h filefuncs.h test.c)
+    set(SOURCE_FILES main.c bst.c filefuncs.c bst.h filefuncs.h menu.c menu.h)
     add_executable(PA1_WordCounter ${SOURCE_FILES})
+    
+>For the csegrid
+ 
+    To Compile:
+      gcc -std=c11 main.c bst.c filefuncs.c menu.c
+    To Execute:
+      ./a.out test.txt
+
 
