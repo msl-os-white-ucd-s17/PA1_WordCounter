@@ -69,7 +69,8 @@ void main(int argc, char **argv) {
 
 
             }
-            menu(tree);                 //Menu addressing user to print out all words or to search for a word
+           // menu(tree);                 //Menu addressing user to print out all words or to search for a word
+            writeFile(tree);            // Write sorted to output file
             deleteBinTree(&tree);       //Delete struct BST_Node instance
 
             fclose(file);
