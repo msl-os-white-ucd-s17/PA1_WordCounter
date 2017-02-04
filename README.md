@@ -36,7 +36,7 @@ _____
 >For the csegrid
  
     To Compile:
-      gcc -std=c11 main.c bst.c filefuncs.c menu.c
+      gcc -std=c11 main.c bst.c filefuncs.c outputFile.c
     To Execute:
       ./a.out test.txt
 
