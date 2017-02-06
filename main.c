@@ -24,13 +24,16 @@ Status:					Files merged. Added a lower case conversions to words read from the 
 */
 #include <stdbool.h>
 #include "filefuncs.h"
-#include "menu.h"
+#include "bst.h"
+//#include "menu.h"
+#include "outputFile.h"
 
 void main(int argc, char **argv) {
     Node* tree = NULL;          //Instance created for struct BST_Node
+    char* fileIn = argv[1];
 
     if (argc > 1) {
-        FILE *file = fopen(argv[1], "r");
+        FILE *file = fopen(fileIn, "r");
         if (file != NULL) {
             char *word = NULL;
             long int s = 0, e = 0, curPos;
@@ -62,15 +65,20 @@ void main(int argc, char **argv) {
                     //Create node object here via the pointer to char array 'word'
 
                     if(word != "") {
-                        word = convertToLower(word);        //convert all char's to lowercase
+                       // word = convertToLower(word);        //convert all char's to lowercase
                         insertNode(word, &tree);
                     }
                 }
 
 
             }
-           // menu(tree);                 //Menu addressing user to print out all words or to search for a word
-            writeFile(tree);            // Write sorted to output file
+
+            if(tree != NULL)
+            {
+                writeFile(tree, fileIn);
+            }
+           // writeFile(tree);
+            //menu(tree);                 //Menu addressing user to print out all words or to search for a word
             deleteBinTree(&tree);       //Delete struct BST_Node instance
 
             fclose(file);

@@ -3,5 +3,5 @@ project(BST_FileIn)
 
 set(CMAKE_C_STANDARD 11)
 
-set(SOURCE_FILES main.c bst.c bst.h filefuncs.c filefuncs.h outputFile.c outputFile.h)
+set(SOURCE_FILES main.c bst.c bst.h filefuncs.c filefuncs.h outputFile.h outputFile.c)
 add_executable(BST_FileIn ${SOURCE_FILES})

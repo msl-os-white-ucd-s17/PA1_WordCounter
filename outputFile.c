@@ -4,38 +4,53 @@
 // Included a writeFile function that writes sorted words in order
 // to file of the user's choice
 
+//Updated Sara's writeToFile to myoutputXX.txt file as requested by instruction on Slack 2/6/17
+
 #include <ctype.h>
 #include <string.h>
-#include <stdbool.h>
 #include "outputFile.h"
 
-char fileName[100];
-FILE *wf;
-bool test = false;
 
-void writeFile(Node* tree) {
 
-    // Only have to run file naming once so set bool to false
-    // Once bool is true, means output file is created and opened
-    while(test == false) {
-        printf("\nEnter the name of the output File:\n");
-        scanf("%123s", fileName);
-        strcat(fileName, ".txt");           // Turn file name of user's choice to .txt
+void writeFile(Node* tree, char* fileIn) {
 
-        wf = fopen(fileName, "w");
-        if (wf == NULL) {
+
+    char outputFile[15]; //Where output will be in the format of myoutputXX.txt
+    FILE *wf;
+
+    strcpy(outputFile, "myoutput00.txt"); //char* makes string read-only strcpy required to change XX
+
+    //fileIn should be of the format inputXX.txt as per requirements
+    for(int i = 0; i < strlen(fileIn); i++)
+    {
+        if(isdigit(fileIn[i]))
+        {
+            outputFile[i+3] = fileIn[i];
+        }
+    }
+
+        wf = fopen(outputFile, "w");
+        if (wf == NULL)
+        {
             printf("ERROR creating file");
             exit(1);
         }
-        test = true;
-    }
-    // Implement the same recursive function as inOrderTraversal
-    // to write sorted text into file
-        if(tree != NULL) {
-            writeFile(tree->left);
-            fprintf(wf, "%s Count: %d\n", tree->wordArr, tree->wordCount);
-            writeFile(tree->right);
+        else {
+            writeTreeToFile(wf, tree);
+            fclose(wf);
         }
+
+}
+
+void writeTreeToFile(FILE* wf, Node* tree)
+{
+    //Recursively write contents of the tree to the file
+    if(tree != NULL)
+    {
+        writeTreeToFile(wf, tree->left);
+        fprintf(wf, "%s Count: %d\n", tree->wordArr, tree->wordCount);
+        writeTreeToFile(wf, tree->right);
+    }
 }
 
 char* convertToLower(char* iWord){
