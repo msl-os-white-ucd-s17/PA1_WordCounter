@@ -25,12 +25,13 @@ Status:					Files merged. Added a lower case conversions to words read from the 
 #include <stdbool.h>
 #include "filefuncs.h"
 #include "bst.h"
-//#include "menu.h"
 #include "outputFile.h"
 
 void main(int argc, char **argv) {
     Node* tree = NULL;          //Instance created for struct BST_Node
     char* fileIn = argv[1];
+    int wordCount = 0;
+    char* arrayOfWords[21]; //Used to hold 20 words at a time from the file to be shuffled
 
     if (argc > 1) {
         FILE *file = fopen(fileIn, "r");
@@ -43,7 +44,7 @@ void main(int argc, char **argv) {
             bool persist = true;
             while (persist) {
                 s = getStartPos(file);
-                e = getEndPos(file);
+                e = getEndPos(file) + 1;
                 if (s >= sz) { //Since fseek resets EOF flag, we must manually check for EOF
                     persist = false;
                     continue;
@@ -60,27 +61,47 @@ void main(int argc, char **argv) {
                     word[(e-s)] = '\0'; //Null terminator
                     fseek(file, curPos, SEEK_SET);
 
-                    //printf("DEBUG: %s%s", word, "\n");
-
-                    //Create node object here via the pointer to char array 'word'
-
                     if(word != "") {
-                       // word = convertToLower(word);        //convert all char's to lowercase
-                        insertNode(word, &tree);
+                        word = toLowerAndRemoveSpaces(word);        //convert all char's to lowercase
+
+                        //Each word read from the file increases the wordCount, once 20 is reached
+                        //the words are shuffled and input into the binary search tree
+                        if(wordCount < 20) {
+                            wordCount++;
+                           arrayOfWords[wordCount-1] = malloc(strlen(word));
+                            strcpy(arrayOfWords[wordCount-1], word);
+                            arrayOfWords[wordCount] = NULL;
+                        }
+                        else
+                        {
+                            char** shuffArr = shuffleWords(arrayOfWords, wordCount); //Shuffles words
+
+                            for(int i = 0; shuffArr[i] != NULL; i++)
+                            {
+                                insertNode(shuffArr[i], &tree); //Add shuffled words to BST
+                            }
+                            wordCount = 0;
+                        }
                     }
                 }
-
-
             }
+            //To get the last words of the file in case there were less than 20 left
+            if(wordCount > 0)
+            {
+                arrayOfWords[wordCount] = NULL;
+                char** shuffArr = shuffleWords(arrayOfWords, wordCount); //Shuffles words
 
+                for(int i = 0; shuffArr[i] != NULL; i++)
+                {
+                    insertNode(shuffArr[i], &tree); //Add shuffled words to BST
+                }
+            }
             if(tree != NULL)
             {
                 writeFile(tree, fileIn);
             }
-           // writeFile(tree);
-            //menu(tree);                 //Menu addressing user to print out all words or to search for a word
-            deleteBinTree(&tree);       //Delete struct BST_Node instance
 
+            deleteBinTree(&tree);       //Delete struct BST_Node instance
             fclose(file);
         }
         else {

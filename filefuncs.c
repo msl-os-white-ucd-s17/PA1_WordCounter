@@ -1,6 +1,6 @@
 /*
  * File Functions implementation - filefuncs.c
- *
+ * Created by: Shawn
  */
 
 #include "filefuncs.h"
@@ -23,6 +23,24 @@ long int getEndPos(FILE *f) {
         ePos = ftell(f);
     }
     return ePos;
+}
+
+char** shuffleWords(char** arrayOfWords, int wordCount)
+{
+    time_t t;
+    srand((unsigned) time(&t));
+    for(int i = 0; arrayOfWords[i] != NULL; i++)
+    {
+        //FisherYates shuffle method
+        char* temp = arrayOfWords[i];
+        int r = rand() % wordCount; //Generate random number between 0 and wordCount - 1
+        arrayOfWords[i] = arrayOfWords[r];
+        arrayOfWords[r] = temp;
+    }
+
+    arrayOfWords[wordCount] = NULL;
+
+    return arrayOfWords;
 }
 
 

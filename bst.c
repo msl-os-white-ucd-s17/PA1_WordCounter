@@ -31,7 +31,6 @@ void insertNode(char* iWord, Node** nodePtr){
     }
 }
 
-
 Node *createNode(char* iWord){
 
     Node *parentNode;
@@ -53,30 +52,8 @@ void inOrderTraversal(Node* pNode){
     //Recursively traverse all nodes of the tree in order from left to right
     if(pNode != NULL){
         inOrderTraversal(pNode->left);
-        printf("\nWord: %s  Count: %d\n", pNode->wordArr, pNode->wordCount);
+        printf("\n%s : %d\n", pNode->wordArr, pNode->wordCount);
         inOrderTraversal(pNode->right);
-    }
-}
-
-Node* findNode(Node** pNode, char* iWord){
-
-    int cmpValue = 0;
-
-    if(*pNode == NULL){
-        //word not found
-        return NULL;
-    }
-    else {
-
-        cmpValue = strcmp(iWord, (*pNode)->wordArr);
-        if (cmpValue > 0) {
-            return findNode(&(*pNode)->right, iWord);
-        } else if (cmpValue < 0) {
-            return findNode(&(*pNode)->left, iWord);
-        } else {
-            //word found
-            return (*pNode);
-        }
     }
 }
 
@@ -86,7 +63,6 @@ void deleteBinTree(Node** nodePtr){
     if(*nodePtr != NULL){
         deleteBinTree(&(*nodePtr)->left);
         deleteBinTree(&(*nodePtr)->right);
-        free((*nodePtr)->wordArr);
         free((*nodePtr));
     }
 

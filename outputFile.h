@@ -11,6 +11,6 @@
 
 void writeFile(Node*, char*);
 void writeTreeToFile(FILE* wf, Node* tree);
-char* convertToLower(char*);
+char* toLowerAndRemoveSpaces(char*);
 
 #endif //BST_FILEOUT_H

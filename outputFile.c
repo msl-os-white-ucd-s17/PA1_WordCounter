@@ -11,7 +11,6 @@
 #include "outputFile.h"
 
 
-
 void writeFile(Node* tree, char* fileIn) {
 
 
@@ -48,16 +47,28 @@ void writeTreeToFile(FILE* wf, Node* tree)
     if(tree != NULL)
     {
         writeTreeToFile(wf, tree->left);
-        fprintf(wf, "%s Count: %d\n", tree->wordArr, tree->wordCount);
+        fprintf(wf, "%s : %d\n", tree->wordArr, tree->wordCount);
         writeTreeToFile(wf, tree->right);
     }
 }
 
-char* convertToLower(char* iWord){
+char* toLowerAndRemoveSpaces(char* iWord){
 
    for(int i = 0; iWord[i];i++){
         iWord[i] = (char) tolower(iWord[i]);
     }
+
+    char *end;
+
+    while(isspace(((unsigned char)*iWord))) iWord++;
+
+    if(*iWord == 0)
+        return iWord;
+
+    end = iWord + strlen(iWord)-1;
+    while(end > iWord && isspace((unsigned char)*end)) end--;
+
+    *(end+1) = 0;
 
     return iWord;
 }
