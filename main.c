@@ -5,8 +5,8 @@
                                         Word Counter
 
 =========================================================================================================
-Contributors:			OS Team White
-Last Date Modified:		1-31-2017
+Contributors:			OS Team White - Shawn Johnson, Sara Kim, Lena Banks, Stefani Moore
+Last Date Modified:		2-6-2017
 Course:					Operating Systems
 Assignment:				Word Counter in C - Assigment 1
 Description:            This program will function as a text file word counter implemented by using a
@@ -19,18 +19,18 @@ Status:					Files merged. Added a lower case conversions to words read from the 
                         via CLion 2016.3.2 and the CSE UNIX grid
 
                         All file functions tested on CLion with CMake 3.6.3 and GDB 7.11.1 and working properly.
-                        Need to integrate adding node to BST in main function.
 =========================================================================================================
 */
 #include <stdbool.h>
 #include "filefuncs.h"
-#include "bst.h"
-//#include "menu.h"
 #include "outputFile.h"
 
 void main(int argc, char **argv) {
-    Node* tree = NULL;          //Instance created for struct BST_Node
-    char* fileIn = argv[1];
+    Node *tree = NULL;          //Instance created for struct BST_Node
+    char* fileIn = argv[1];     //User input test file in the format of inputXX.txt
+    size_t numElements = 20;
+    int wordCount = 0;
+    char* arrayOfWords[21];
 
     if (argc > 1) {
         FILE *file = fopen(fileIn, "r");
@@ -60,27 +60,33 @@ void main(int argc, char **argv) {
                     word[(e-s)] = '\0'; //Null terminator
                     fseek(file, curPos, SEEK_SET);
 
-                    //printf("DEBUG: %s%s", word, "\n");
-
-                    //Create node object here via the pointer to char array 'word'
-
                     if(word != "") {
-                       // word = convertToLower(word);        //convert all char's to lowercase
-                        insertNode(word, &tree);
+                        word = convertToLower(word);        //convert all char's to lowercase
+                        if(wordCount < 20) {
+                           arrayOfWords[wordCount] = malloc(strlen(word)+1);
+                            strcpy(arrayOfWords[wordCount], word);
+                            arrayOfWords[wordCount + 1] = NULL;
+                            wordCount++;
+                        }
+                        else{
+                            wordCount = 0;
+                            arrayOfWords[20] = NULL;
+                            char** shuffArr = shuffleWords(arrayOfWords); //Shuffles words and calls function to add them to BST
+
+                            for(int i = 0; shuffArr[i] != NULL; i++)
+                            {
+                                insertNode(shuffArr[i], &tree);
+                            }
+                        }
                     }
                 }
-
-
             }
-
-            if(tree != NULL)
+           if(tree != NULL)
             {
                 writeFile(tree, fileIn);
             }
-           // writeFile(tree);
-            //menu(tree);                 //Menu addressing user to print out all words or to search for a word
             deleteBinTree(&tree);       //Delete struct BST_Node instance
-
+            //free(arrayOfWords); //Free the array of words
             fclose(file);
         }
         else {

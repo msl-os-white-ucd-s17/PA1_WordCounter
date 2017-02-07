@@ -24,7 +24,6 @@ typedef struct BST_Node{
 void insertNode(char*, Node**);
 Node* createNode(char*);
 void inOrderTraversal(Node*);
-Node* findNode(Node**, char*);
 void deleteBinTree(Node**);
 
 #endif //WHITEOS_PA1_BST_H

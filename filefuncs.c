@@ -3,6 +3,8 @@
  *
  */
 
+#include <time.h>
+#include <stdlib.h>
 #include "filefuncs.h"
 
 long int getStartPos(FILE *f) {
@@ -24,6 +26,25 @@ long int getEndPos(FILE *f) {
     }
     return ePos;
 }
+
+char** shuffleWords(char** arrayOfWords)
+{
+    srand((unsigned int) time(NULL));
+    for(int i = 0; arrayOfWords[i] != NULL; i++)
+    {
+        //FisherYates shuffle method
+        char* temp = arrayOfWords[i];
+        int r = rand() % 20; //Generate random number between 0 and 19
+        arrayOfWords[i] = arrayOfWords[r];
+        arrayOfWords[r] = temp;
+    }
+
+    arrayOfWords[20] = NULL;
+
+    return arrayOfWords;
+}
+
+
 
 
 

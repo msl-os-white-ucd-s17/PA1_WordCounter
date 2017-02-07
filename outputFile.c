@@ -48,7 +48,7 @@ void writeTreeToFile(FILE* wf, Node* tree)
     if(tree != NULL)
     {
         writeTreeToFile(wf, tree->left);
-        fprintf(wf, "%s Count: %d\n", tree->wordArr, tree->wordCount);
+        fprintf(wf, "%s : %d\n", tree->wordArr, tree->wordCount);
         writeTreeToFile(wf, tree->right);
     }
 }
